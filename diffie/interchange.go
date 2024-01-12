@@ -10,6 +10,9 @@ import (
 	"strings"
 )
 
+const minSize = 2048
+const maxSize = 4096
+
 // generatePrimeNumber generates a prime number of a specified bit size.
 func generatePrimeNumber(minBits, maxBits int) (*big.Int, error) {
 	bitSize, err := rand.Int(rand.Reader, big.NewInt(int64(maxBits-minBits+1)))
@@ -57,7 +60,7 @@ func main() {
 }
 
 func startServer(port string) {
-	p, _ := generatePrimeNumber(2048, 2096)
+	p, _ := generatePrimeNumber(minSize, maxSize)
 	g := big.NewInt(2)
 
 	ln, err := net.Listen("tcp", ":"+port)
