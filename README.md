@@ -1,4 +1,12 @@
-# Diffie-Hellman Key Exchange in Go (interchange.go)
+# Diffie-Hellman Key Exchange in Go
+
+🔐✨ "The Secret Keepers' Club" ✨🔐
+
+Welcome to the digital realm's most exclusive club, where Alice and Bob outwit onlookers, especially the notorious Mallory, with the legendary Diffie-Hellman key exchange. Here, secrets are shared openly, yet remain cloaked in cryptic elegance.
+
+🎩🐇 Discover the magic of interchange.go, where secrets are swapped faster than a magician's trick. It's not just mathematics; it's the art of cryptography!
+
+Step into a world where a simple "What's your number?" unfolds into an adventure of encrypted camaraderie and fun.
 
 ## Overview of Diffie-Hellman Key Exchange
 The Diffie-Hellman Key Exchange algorithm is a method of securely exchanging cryptographic keys over a public channel. It was one of the first public-key protocols as originally conceptualized by Ralph Merkle and named after Whitfield Diffie and Martin Hellman. The core idea is to allow two parties - traditionally referred to as Alice and Bob - to agree on a shared secret key, used for subsequent encryption, without having to transmit that key to each other.
