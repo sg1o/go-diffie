@@ -13,6 +13,11 @@ The Diffie-Hellman Key Exchange algorithm is a method of securely exchanging cry
 
 This is achieved by each party generating a private key and a corresponding public key. These public keys are then exchanged over the public channel. The shared secret is computed independently by both parties using their private key and the other party's public key. Due to the mathematical properties of the algorithm, both parties end up with the same shared secret.
 
+### Scheme of Diffie-Hellman Algorithm
+Below is a schematic representation of the Diffie-Hellman Key Exchange algorithm, which illustrates the process:
+
+![Diffie-Hellman Key Exchange](diffie/diffie.png)
+
 ## diffie/interchange.go
 This Go program demonstrates a simple implementation of the Diffie-Hellman Key Exchange protocol. It consists of two parts: a server (Bob) and a client (Alice).
 
@@ -28,11 +33,6 @@ This Go program demonstrates a simple implementation of the Diffie-Hellman Key E
 3. **Key Exchange Process:**
    - Both the server and client will display their private and public keys.
    - Once the public keys are exchanged between them, both compute the shared secret key and display it.
-
-### Scheme of Diffie-Hellman Algorithm
-Below is a schematic representation of the Diffie-Hellman Key Exchange algorithm, which illustrates the process:
-
-![Diffie-Hellman Key Exchange](diffie/diffie.png)
 
 ## Dependencies
 - Go programming language
