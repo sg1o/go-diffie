@@ -36,7 +36,7 @@ Where `<path>` is the path to the file or directory you want to send, and
 To receive a file, run:
 
 ```bash
-./secomm -r <port> <ip>
+./secomm -r <ip> <port>
 ```
 
 Where `<port>` is the port number to connect to, and `<ip>` is the IP address
@@ -57,7 +57,7 @@ Start a server to send a file:
 Connect to a server to receive a file:
 
 ```bash
-./secomm -r 8080 192.168.1.100
+./secomm -r 192.168.1.100 8080
 ```
 
 ## Contributing
