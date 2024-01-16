@@ -32,7 +32,7 @@ func displayHelp() {
 	fmt.Println("secomm: Secure Communication Tool")
 	fmt.Println("Usage:")
 	fmt.Println("  secomm -s <path> <port>   Start server and send file/folder.")
-	fmt.Println("  secomm -r <port> <ip>     Connect to server and receive file.")
+	fmt.Println("  secomm -r <ip> <port>    Connect to server and receive file.")
 	fmt.Println("Flags:")
 	fmt.Println("  -v                       Verbose output.")
 	fmt.Println("  -vv                      Very verbose output.")
