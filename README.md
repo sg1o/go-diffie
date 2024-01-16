@@ -4,7 +4,7 @@
 
 Welcome to the digital realm's most exclusive club, where Alice and Bob outwit onlookers, especially the notorious Mallory, with the legendary Diffie-Hellman key exchange. Here, secrets are shared openly, yet remain cloaked in cryptic elegance.
 
-🎩🐇 Discover the magic of interchange.go, where secrets are swapped faster than a magician's trick. It's not just mathematics; it's the art of cryptography!
+🎩🐇 Discover the magic of secomm, where secrets are swapped faster than a magician's trick. It's not just mathematics; it's the art of cryptography!
 
 Step into a world where a simple "What's your number?" unfolds into an adventure of encrypted camaraderie and fun.
 
