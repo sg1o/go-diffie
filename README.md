@@ -18,7 +18,7 @@ Below is a schematic representation of the Diffie-Hellman Key Exchange algorithm
 
 ![Diffie-Hellman Key Exchange](diffie/diffie.png)
 
-## secomm: Secure File Transmission via Command Line
+## secomm/src/secomm.go
 
 `secomm` is a Go-based tool for secure file and directory transmission over a network, leveraging Diffie-Hellman key exchange, AES encryption, and ZIP compression.
 
