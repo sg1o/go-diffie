@@ -97,6 +97,7 @@ func main() {
 			fmt.Println("[!]File sent successfully")
 		}
 		deleteS(zipPath)
+		os.Exit(1)
 
 	case "-r":
 		if len(os.Args) < 4 {
@@ -140,6 +141,7 @@ func main() {
 		}
 		fmt.Println("File received in ", filePath)
 		deleteR()
+		os.Exit(1)
 
 	default:
 		fmt.Println("Error: Invalid argument. Usage: secomm -s <path> <port> or secomm -r <ip> <port>")
@@ -307,7 +309,7 @@ func receiveAndComputeSharedKey(conn net.Conn, private *big.Int, p *big.Int, nam
 }
 
 func compress(source string) (string, error) {
-	zipPath := source + ".zip"
+	zipPath := "source_" + source + ".zip"
 	zipFile, err := os.Create(zipPath)
 	if err != nil {
 		return "", err
@@ -525,7 +527,9 @@ func uncompress(zipPath string) (string, error) {
 		}
 
 		if file.FileInfo().IsDir() {
-			fmt.Println("Creating directory:", fullPath)
+			if verbosityLevel >= 1 {
+				fmt.Println("Creating directory:", fullPath)
+			}
 			if err := os.MkdirAll(fullPath, file.Mode()); err != nil {
 				fmt.Println("Error creating directory:", err)
 				return "", err
@@ -667,15 +671,15 @@ func receiveFile(conn net.Conn) (string, error) {
 }
 
 func deleteR() {
-	go fmt.Println("Cleaning files...")
 
+	fmt.Println("Cleaning files...")
 	os.Remove("./received.file.enc")
 	os.Remove("./received.file.enc.zip")
 }
 
 func deleteS(fileName string) {
-	go fmt.Println("Cleaning files...")
 
+	fmt.Println("Cleaning files...")
 	os.Remove(fileName)
 	os.Remove(fileName + ".enc")
 }
