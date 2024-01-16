@@ -13,7 +13,7 @@ compression for efficient file transmission.
 Clone the repository and build the program:
 
 ```bash
-git clone https://github.com/your-username/secomm.git
+git clone https://github.com/sg1o/secomm.git
 cd secomm
 go build .
 sudo mv secomm /usr/bin/
