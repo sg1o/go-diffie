@@ -18,6 +18,35 @@ Below is a schematic representation of the Diffie-Hellman Key Exchange algorithm
 
 ![Diffie-Hellman Key Exchange](diffie/diffie.png)
 
+## secomm: Secure File Transmission via Command Line
+
+`secomm` is a Go-based tool for secure file and directory transmission over a network, leveraging Diffie-Hellman key exchange, AES encryption, and ZIP compression.
+
+### How to Use secomm
+
+1. **Sending Files:**
+   - Run the command `./secomm -s <path> <port>` to send a file or directory.
+   - `<path>` is the file or directory path, and `<port>` is the server's listening port.
+
+2. **Receiving Files:**
+   - To receive, execute `./secomm -r <port> <ip>`.
+   - `<port>` is the connection port, and `<ip>` is the server's IP address.
+
+### Key Features
+- **Installation**: Clone and build from the repository. 
+  ```bash
+  git clone https://github.com/your-username/secomm.git
+  cd secomm
+  go build .
+  sudo mv secomm /usr/bin/
+  ```
+- **Verbose Output Options**: Use `-v` for verbose and `-vv` for very verbose output.
+- **Help**: Access help with `--help`.
+
+### Examples
+- **Send a file**: `./secomm -s ./example.txt 8080`
+- **Receive a file**: `./secomm -r 8080 192.168.1.100`
+
 ## diffie/interchange.go
 This Go program demonstrates a simple implementation of the Diffie-Hellman Key Exchange protocol. It consists of two parts: a server (Bob) and a client (Alice).
 
