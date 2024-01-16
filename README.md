@@ -29,7 +29,7 @@ Below is a schematic representation of the Diffie-Hellman Key Exchange algorithm
    - `<path>` is the file or directory path, and `<port>` is the server's listening port.
 
 2. **Receiving Files:**
-   - To receive, execute `./secomm -r <port> <ip>`.
+   - To receive, execute `./secomm -r <ip> <port>`.
    - `<port>` is the connection port, and `<ip>` is the server's IP address.
 
 ### Key Features
@@ -45,7 +45,7 @@ Below is a schematic representation of the Diffie-Hellman Key Exchange algorithm
 
 ### Examples
 - **Send a file**: `./secomm -s ./example.txt 8080`
-- **Receive a file**: `./secomm -r 8080 192.168.1.100`
+- **Receive a file**: `./secomm -r 192.168.1.100 8080`
 
 ## diffie/interchange.go
 This Go program demonstrates a simple implementation of the Diffie-Hellman Key Exchange protocol. It consists of two parts: a server (Bob) and a client (Alice).
