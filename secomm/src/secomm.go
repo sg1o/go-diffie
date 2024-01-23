@@ -18,6 +18,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 const (
@@ -187,6 +188,82 @@ func generatePrimeNumber(minBits, maxBits int) (*big.Int, error) {
 	return prime, nil
 }
 
+// smallPrimes is a precalculated list of small prime numbers for quick
+// divisibility tests.
+var smallPrimes = []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,
+	53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
+
+// isDivisibleByAnySmallPrime checks if the given number is divisible by any of
+// the small primes.
+func isDivisibleByAnySmallPrime(num *big.Int) bool {
+	for _, prime := range smallPrimes {
+		if new(big.Int).Mod(num, big.NewInt(int64(prime))).Cmp(big.NewInt(0)) == 0 {
+			return true
+		}
+	}
+	return false
+}
+
+// generateSafePrime generates a safe prime number of a specified bit size.
+func generateSafePrime(minBits, maxBits int) (*big.Int, error) {
+	halfMinBits := (minBits + 1) / 2
+	halfMaxBits := (maxBits + 1) / 2
+
+	for {
+		// Generate a candidate for (p-1)/2
+		halfPrime, err := generatePrimeNumber(halfMinBits, halfMaxBits)
+		if err != nil {
+			return nil, err
+		}
+
+		// Skip if divisible by any small prime
+		if isDivisibleByAnySmallPrime(halfPrime) {
+			continue
+		}
+
+		// Construct the safe prime candidate: p = 2*halfPrime + 1
+		prime := new(big.Int).Lsh(halfPrime, 1) // Left shift to multiply by 2
+		prime.Add(prime, big.NewInt(1))
+
+		// Check if the candidate is prime with fewer iterations
+		if prime.ProbablyPrime(5) { // Reduced iterations for faster check
+			return prime, nil
+		}
+	}
+}
+
+// generateSafePrimeConcurrent generates a safe prime number of a specified bit
+// size using goroutines.
+func generateSafePrimeConcurrent(minBits, maxBits int, numGoroutines int) (*big.Int, error) {
+	fmt.Println("[!]Generating safe prime")
+	primeChan := make(chan *big.Int)
+	var wg sync.WaitGroup
+	wg.Add(numGoroutines)
+
+	for i := 0; i < numGoroutines; i++ {
+		go func() {
+			defer wg.Done()
+			if prime, err := generateSafePrime(minBits, maxBits); err == nil {
+				select {
+				case primeChan <- prime:
+				default:
+				}
+			}
+		}()
+	}
+
+	go func() {
+		wg.Wait()
+		close(primeChan)
+	}()
+
+	for prime := range primeChan {
+		return prime, nil
+	}
+
+	return nil, nil
+}
+
 // diffieHellman performs the Diffie-Hellman key exchange.
 func diffieHellman(p *big.Int, g *big.Int) (*big.Int, *big.Int, error) {
 	private, err := rand.Int(rand.Reader, p)
@@ -200,8 +277,21 @@ func diffieHellman(p *big.Int, g *big.Int) (*big.Int, *big.Int, error) {
 }
 
 func startServer(port string) (*big.Int, net.Conn) {
-	p, _ := generatePrimeNumber(minSize, maxSize)
+	// In the Diffie-Hellman key exchange, the choice of the generator 'g' is
+	// crucial for the security of the protocol. Here, we are using 'g = 2'.
+	// This is a common and secure choice when 'p' is a safe prime number. A
+	// safe prime is a prime number of the form 'p = 2q + 1', where 'q' is also
+	// a prime. The security of Diffie-Hellman relies on the difficulty of the
+	// Discrete Logarithm Problem (DLP) in the multiplicative group of integers
+	// modulo 'p'. When 'p' is a safe prime, 'g = 2' is a primitive root modulo
+	// 'p', meaning it generates a subgroup of a large order, specifically, the
+	// order is 'q' (which is large and prime). This large subgroup size helps
+	// in resisting certain cryptographic attacks like the discrete logarithm
+	// attack. Therefore, using 'g = 2' with a safe prime 'p' is a good
+	// practice for the Diffie-Hellman key exchange, providing a balance
+	// between computational efficiency and security.
 	g := big.NewInt(2)
+	p, _ := generateSafePrimeConcurrent(minSize, maxSize, 5)
 
 	ln, err := net.Listen("tcp", ":"+port)
 	if err != nil {
